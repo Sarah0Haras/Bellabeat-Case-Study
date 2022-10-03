@@ -15,19 +15,18 @@ This is part of my Google Data Analytics Professional Certificate portfolio proj
 ## Preview and Cleaning Process 
 
 ### Checking number of users
-```sql
 SELECT  
 COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailyActivity`.id) )AS Total_Daily_Activity_ID,
 COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailySleep`.id) ) AS Total_Sleep_ID,
-COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailySteps`.id) ) AS Total_Steps_ID
+COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.hourlySteps`.id) ) AS Total_Steps_ID
 
 FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
 
 FULL OUTER JOIN `portfolio-363100.Bellabeat_Case_Study.dailySleep` ON `portfolio-363100.Bellabeat_Case_Study.dailyActivity`.ID = `portfolio-363100.Bellabeat_Case_Study.dailySleep`.ID
 AND  `portfolio-363100.Bellabeat_Case_Study.dailyActivity`.ActivityDate = `portfolio-363100.Bellabeat_Case_Study.dailySleep`.SleepDay
 
-FULL OUTER JOIN `portfolio-363100.Bellabeat_Case_Study.dailySteps` ON `portfolio-363100.Bellabeat_Case_Study.dailySleep`.ID = `portfolio-363100.Bellabeat_Case_Study.dailySteps`.ID
-AND  `portfolio-363100.Bellabeat_Case_Study.dailySleep`.SleepDay = `portfolio-363100.Bellabeat_Case_Study.dailySteps`.ActivityDay
+FULL OUTER JOIN `portfolio-363100.Bellabeat_Case_Study.hourlySteps` ON `portfolio-363100.Bellabeat_Case_Study.dailySleep`.ID = `portfolio-363100.Bellabeat_Case_Study.hourlySteps`.ID
+AND  `portfolio-363100.Bellabeat_Case_Study.dailySleep`.SleepDay = `portfolio-363100.Bellabeat_Case_Study.hourlySteps`.ActivityDate
 ```
 |Total_Daily |Total_Sleep|Total_Steps
 |------------|-----------|-----------|
@@ -66,16 +65,35 @@ HAVING Total_Act_Day != Total_Act_Day_DIST
 |4702921684 |28             |27                 |
 |8378563200 |32             |31                 |
 
-#### dailySteps Table
+#### hourlySteps Table
 ```sql
-SELECT  
-`portfolio-363100.Bellabeat_Case_Study.dailySteps`.Id AS ID , 
-COUNT(`portfolio-363100.Bellabeat_Case_Study.dailySteps`.Id) AS Total_Act_Day, 
-COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailySteps`.ActivityDay)) AS Total_Act_Day_DIST
-
-FROM `portfolio-363100.Bellabeat_Case_Study.dailySteps` 
-GROUP By `portfolio-363100.Bellabeat_Case_Study.dailySteps`.Id
-HAVING Total_Act_Day != Total_Act_Day_DIST
+SELECT ID,
+COUNT(DISTINCT(ActivityDate)) AS Total_Act_Day,
+COUNT(DISTINCT(ActivityHour)) AS Total_Hr_A_Day
+FROM `portfolio-363100.Bellabeat_Case_Study.hourlySteps`
+GROUP BY ID 
+HAVING Total_Hr_A_Day != 24
 ```
 No duplicate found
 
+## Analyze Phase
+
+This analysis is to find trends and determine if they can help us on Bellabeat's marketing strategy.
+According to [this article](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/), the daily amount of step and activity levels can be classified as below:
+* Sedentary - less than 5,000 steps per day 
+* Low active - 5,000 to 7,499 steps per day
+* Somewhat active - 7,500 to 9,999 steps per day
+* Active - more than 10,000 steps per day
+
+Finding teh average of daily steps, daily calories and daily sleep in mintues
+```sql
+SELECT  
+ID, AVG(TotalSteps) AS Avg_Daily_Steps,AVG(Calories) AS Avg_Daily_Calories,
+FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
+GROUP BY Id
+```
+```sql
+SELECT ID, AVG(TotalMinutesAsleep) AS Avg_Daily_Sleep_MM
+FROM `portfolio-363100.Bellabeat_Case_Study.dailySleep` 
+GROUP BY Id
+```
