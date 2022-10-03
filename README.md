@@ -15,6 +15,7 @@ This is part of my Google Data Analytics Professional Certificate portfolio proj
 ## Preview and Cleaning Process 
 
 ### Checking number of users
+```sql
 SELECT  
 COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailyActivity`.id) )AS Total_Daily_Activity_ID,
 COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailySleep`.id) ) AS Total_Sleep_ID,
@@ -85,7 +86,7 @@ According to [this article](https://www.10000steps.org.au/articles/healthy-lifes
 * Somewhat active - 7,500 to 9,999 steps per day
 * Active - more than 10,000 steps per day
 
-Finding teh average of daily steps, daily calories and daily sleep in mintues
+Finding the average of daily steps, daily calories and daily sleep in minutes
 ```sql
 SELECT  
 ID, AVG(TotalSteps) AS Avg_Daily_Steps,AVG(Calories) AS Avg_Daily_Calories,
