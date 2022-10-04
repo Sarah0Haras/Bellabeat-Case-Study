@@ -112,4 +112,4 @@ END AS Active_Lvl
 FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
 GROUP BY Id
 ```
-Create a temporary table to count the percentage of each Activity Level.  
+Create a temporary table to count the percentage of each Active Level.  
