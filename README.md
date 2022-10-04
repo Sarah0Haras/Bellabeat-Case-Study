@@ -86,7 +86,7 @@ According to [this article](https://www.10000steps.org.au/articles/healthy-lifes
 * Somewhat active - 7,500 to 9,999 steps per day
 * Active - more than 10,000 steps per day
 
-Finding the average of daily steps, daily calories and daily sleep in minutes
+Finding the users average of daily steps, daily calories and daily sleep in minutes
 ```sql
 SELECT  
 ID, AVG(TotalSteps) AS Avg_Daily_Steps,AVG(Calories) AS Avg_Daily_Calories,
@@ -98,3 +98,18 @@ SELECT ID, AVG(TotalMinutesAsleep) AS Avg_Daily_Sleep_MM
 FROM `portfolio-363100.Bellabeat_Case_Study.dailySleep` 
 GROUP BY Id
 ```
+Classify activity levels by daily average steps
+
+```sql
+SELECT  
+ID, AVG(TotalSteps) AS Avg_Daily_Steps,AVG(Calories) AS Avg_Daily_Calories,
+CASE
+ WHEN AVG(TotalSteps) <5000 THEN 'Sedentary'
+ WHEN AVG(TotalSteps) >=5000 AND AVG(TotalSteps) <7499 THEN 'Low active'
+ WHEN AVG(TotalSteps) >=7500 AND AVG(TotalSteps) <9999 THEN 'Somewhat active'
+ WHEN AVG(TotalSteps) >10000 THEN 'Active'
+END AS Active_Lvl
+FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
+GROUP BY Id
+```
+Create a temporary table to count the percentage of each Activity Level.  
