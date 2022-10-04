@@ -112,4 +112,25 @@ END AS Active_Lvl
 FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
 GROUP BY Id
 ```
-Create a temporary table to count the percentage of each Active Level.  
+Create a temporary table to count the percentage of each Active Level (total 33 users).  
+
+```sql
+WITH Percent_Active_Lvl AS (
+SELECT  
+ID, AVG(TotalSteps) AS Avg_Daily_Steps,AVG(Calories) AS Avg_Daily_Calories,
+CASE
+ WHEN AVG(TotalSteps) <5000 THEN 'Sedentary'
+ WHEN AVG(TotalSteps) >=5000 AND AVG(TotalSteps) <7499 THEN 'Low active'
+ WHEN AVG(TotalSteps) >=7500 AND AVG(TotalSteps) <9999 THEN 'Somewhat active'
+ WHEN AVG(TotalSteps) >10000 THEN 'Active'
+END AS Active_Lvl
+FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
+GROUP BY Id )
+
+SELECT
+Active_Lvl, 
+COUNT(Active_Lvl) AS Total_of_Active_Lvl, 
+COUNT(Active_Lvl)/33*100 AS Percent_of_Active_Lvl
+FROM Percent_Active_Lvl
+GROUP BY Active_Lvl
+```
