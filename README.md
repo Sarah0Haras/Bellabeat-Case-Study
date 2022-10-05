@@ -138,13 +138,13 @@ GROUP BY Active_Lvl
 ```
 ![Sheet 1 (2)](https://user-images.githubusercontent.com/113477899/194024931-0afbdb5f-3c5e-40ac-8ed9-186a055f2dfa.png)
 
-#### User most active day (Weekday vs Weekend)
+#### User most active day of week and total steps per day of week
 ```sql
-WITH User_Most_Active_Day AS (SELECT ID, ActivityDate, FORMAT_DATE('%A', ActivityDate) AS Day_Of_Week
+WITH User_Most_Active_Day_Steps AS (SELECT ID, ActivityDate, TotalSteps, FORMAT_DATE('%A', ActivityDate) AS Day_Of_Week
 FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity`)
 
-SELECT  Day_Of_Week,COUNT(Day_Of_Week) AS Total_Active_DayofWeek
-FROM  User_Most_Active_Day
+SELECT  Day_Of_Week,AVG(TotalSteps) AS Total_DayofWeek_Steps,COUNT(Day_Of_Week) AS Total_Active_DayofWeek
+FROM  User_Most_Active_Day_Steps
 GROUP BY (Day_Of_Week)
 ORDER BY case Day_Of_Week
 WHEN 'Monday' THEN 1
@@ -157,5 +157,25 @@ WHEN 'Sunday' THEN 7
 end 
 ```
 
-#### Total steps per day of week
+#### User most sleep minutes day of week and total sleep minutes per day of week
+```sql
+WITH User_Most_Sleep_DayofWeek_SleepMinutes AS (SELECT ID, SleepDay, TotalMinutesAsleep, FORMAT_DATE('%A', SleepDay) AS Day_Of_Week
+FROM `portfolio-363100.Bellabeat_Case_Study.dailySleep`)
+
+SELECT  Day_Of_Week,AVG(TotalMinutesAsleep) AS Total_DayofWeek_SleepMinutes,COUNT(Day_Of_Week) AS Total_Sleep_DayofWeek
+FROM  User_Most_Sleep_DayofWeek_SleepMinutes
+GROUP BY (Day_Of_Week)
+ORDER BY case Day_Of_Week
+WHEN 'Monday' THEN 1
+WHEN 'Tuesday' THEN 2
+WHEN 'Wednesday' THEN 3
+WHEN 'Thursday' THEN 4
+WHEN 'Friday' THEN 5
+WHEN 'Saturday' THEN 6
+WHEN 'Sunday' THEN 7
+end 
+```
+![Sheet 2 (2)](https://user-images.githubusercontent.com/113477899/194174915-46d0bb92-8adb-4a77-8298-86873e9b88ce.png)![Sheet 3](https://user-images.githubusercontent.com/113477899/194174959-9892bec1-f0e0-4a4b-b705-c63c41693ca9.png)
+
+From the above graph, most days user walk the recommended number of steps except for Sunday. Another finding is that users didn’t sleep the recommended amount of time (8hours a day)
 
