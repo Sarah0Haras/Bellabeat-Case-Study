@@ -80,6 +80,8 @@ No duplicate found
 ## Analyze Phase
 
 This analysis is to find trends and determine if they can help us on Bellabeat's marketing strategy.
+
+#### Type of users and Active Level
 According to [this article](https://www.10000steps.org.au/articles/healthy-lifestyles/counting-steps/), the daily amount of step and activity levels can be classified as below:
 * Sedentary - less than 5,000 steps per day 
 * Low active - 5,000 to 7,499 steps per day
@@ -134,3 +136,26 @@ COUNT(Active_Lvl)/33*100 AS Percent_of_Active_Lvl
 FROM Percent_Active_Lvl
 GROUP BY Active_Lvl
 ```
+![Sheet 1 (2)](https://user-images.githubusercontent.com/113477899/194024931-0afbdb5f-3c5e-40ac-8ed9-186a055f2dfa.png)
+
+#### User most active day (Weekday vs Weekend)
+```sql
+WITH User_Most_Active_Day AS (SELECT ID, ActivityDate, FORMAT_DATE('%A', ActivityDate) AS Day_Of_Week
+FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity`)
+
+SELECT  Day_Of_Week,COUNT(Day_Of_Week) AS Total_Active_DayofWeek
+FROM  User_Most_Active_Day
+GROUP BY (Day_Of_Week)
+ORDER BY case Day_Of_Week
+WHEN 'Monday' THEN 1
+WHEN 'Tuesday' THEN 2
+WHEN 'Wednesday' THEN 3
+WHEN 'Thursday' THEN 4
+WHEN 'Friday' THEN 5
+WHEN 'Saturday' THEN 6
+WHEN 'Sunday' THEN 7
+end 
+```
+
+#### Total steps per day of week
+
