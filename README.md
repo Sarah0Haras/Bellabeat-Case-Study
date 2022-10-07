@@ -179,3 +179,38 @@ end
 
 From the above graph, most days user walk the recommended number of steps except for Sunday. Another finding is that users didn’t sleep the recommended amount of time (8hours a day)
 
+#### Total hourly steps by hours
+
+To find out the most active hour of the users.
+
+```sql
+SELECT  ID, ActivityDate, ActivityHour, AVG(StepTotal) AS AVG_Total_Steps
+FROM  `portfolio-363100.Bellabeat_Case_Study.hourlySteps`
+GROUP BY Id,ActivityDate, ActivityHour
+```
+![image](https://user-images.githubusercontent.com/113477899/194456518-9451483c-f37c-4b8d-9f4f-5ddf77edb96d.png)
+
+The graph shows that the users are normally active between 8.00 am and 7.00 pm. The most peak period is during lunch time 12.00 pm to 2.00 pm and evening 5.00 pm to 7.00 pm. 
+
+#### Use of the device
+We would like to find out how often the user uses their device. The usage of device can be categories as follows:
+* High use– Users who use their device between 21 to 31 days
+* Moderate use – Users who use their device between 10 to 20 days
+*	Low use – Users who use their device between 1 to 9 days
+
+To find out the usage percentage (total 24 days)
+```sql
+WITH Days_Used AS (SELECT  ID, COUNT(SleepDay) AS Days_Used,
+CASE
+WHEN COUNT(SleepDay) >=1 AND COUNT(SleepDay) <10 THEN 'Low use'
+WHEN COUNT(SleepDay) >=10 AND COUNT(SleepDay) < 20 THEN 'Moderate use'
+WHEN COUNT(SleepDay) >=21 THEN 'High use'
+END AS Usage
+FROM  `portfolio-363100.Bellabeat_Case_Study.dailySleep`
+WHERE ID IS NOT NULL
+GROUP BY ID)
+
+SELECT Usage, COUNT(Usage)/24*100 AS Usage_Percent
+FROM Days_Used
+GROUP BY Usage
+```
