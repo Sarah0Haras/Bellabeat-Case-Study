@@ -5,7 +5,6 @@ This is part of my Google Data Analytics Professional Certificate portfolio proj
 
 ## Business Task
 * Non-Bellabeat consumer behavior using a smart device
-* Bellabeat VS Npn-Bellabeat consumer behavior
 * To help Bellabeat get more opportunities to grow
 * Provide more insight to the marketing team
 
@@ -203,7 +202,7 @@ To find out the usage percentage (total 24 days)
 WITH Days_Used AS (SELECT  ID, COUNT(SleepDay) AS Days_Used,
 CASE
 WHEN COUNT(SleepDay) >=1 AND COUNT(SleepDay) <10 THEN 'Low use'
-WHEN COUNT(SleepDay) >=10 AND COUNT(SleepDay) < 20 THEN 'Moderate use'
+WHEN COUNT(SleepDay) >=10 AND COUNT(SleepDay) <= 20 THEN 'Moderate use'
 WHEN COUNT(SleepDay) >=21 THEN 'High use'
 END AS Usage
 FROM  `portfolio-363100.Bellabeat_Case_Study.dailySleep`
@@ -214,3 +213,15 @@ SELECT Usage, COUNT(Usage)/24*100 AS Usage_Percent
 FROM Days_Used
 GROUP BY Usage
 ```
+|Usage   	     |Usage_Percent	|
+|--------------|--------------|
+|High use      |50.0          | 
+|Low use       |37.5	         |
+|Moderate use  |12.5          |
+
+![image](https://user-images.githubusercontent.com/113477899/194503294-15e7eafd-eaad-48cb-bd0d-e7fb8b9f9fbe.png)
+
+## Conclusion
+
+
+
