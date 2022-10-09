@@ -4,9 +4,11 @@
 This is part of my Google Data Analytics Professional Certificate portfolio project,I will be imagine myself working for Bellabeat, a high-tech manufacturer of health-focused product for woman. 
 
 ## Business Task
-* Non-Bellabeat consumer behavior using a smart device
-* To help Bellabeat get more opportunities to grow
+* Non-Bellabeat users behavior using a smart device
 * Provide more insight to the marketing team
+* To help Bellabeat get more opportunities to grow
+* Improving Bellabeat products
+
 
 ## Data Source
 * Fitbit Fitness Tracker Data – Public Domain, through [Mobius](https://www.kaggle.com/arashnic/datasets) (user consented to provide their personal data)
@@ -36,13 +38,10 @@ AND  `portfolio-363100.Bellabeat_Case_Study.dailySleep`.SleepDay = `portfolio-36
 
 #### dailyActivity Table
 ```sql
-SELECT  
-`portfolio-363100.Bellabeat_Case_Study.dailyActivity`.Id AS ID , 
-COUNT(`portfolio-363100.Bellabeat_Case_Study.dailyActivity`.Id) AS Total_Act_Day, 
-COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailyActivity`.ActivityDate)) AS Total_Act_Day_DIST
-
+SELECT 
+Id, COUNT(Id) AS Total_Act_Day, COUNT(DISTINCT(ActivityDate)) AS Total_Act_Day_DIST
 FROM `portfolio-363100.Bellabeat_Case_Study.dailyActivity` 
-GROUP By `portfolio-363100.Bellabeat_Case_Study.dailyActivity`.Id
+GROUP By Id
 HAVING Total_Act_Day != Total_Act_Day_DIST
 ```
 No duplicate found
@@ -50,12 +49,11 @@ No duplicate found
 #### dailySleep Table
 ```sql
 SELECT  
-`portfolio-363100.Bellabeat_Case_Study.dailySleep`.Id AS ID , 
-COUNT(`portfolio-363100.Bellabeat_Case_Study.dailySleep`.Id) AS Total_Act_Day, 
-COUNT(DISTINCT(`portfolio-363100.Bellabeat_Case_Study.dailySleep`.SleepDay)) AS Total_Act_Day_DIST
-
+ID , 
+COUNT(Id) AS Total_Act_Day, 
+COUNT(DISTINCT(SleepDay)) AS Total_Act_Day_DIST
 FROM `portfolio-363100.Bellabeat_Case_Study.dailySleep` 
-GROUP By `portfolio-363100.Bellabeat_Case_Study.dailySleep`.Id
+GROUP By Id
 HAVING Total_Act_Day != Total_Act_Day_DIST
 ```
 3 duplicates found
@@ -176,7 +174,7 @@ end
 ```
 ![Sheet 2 (2)](https://user-images.githubusercontent.com/113477899/194174915-46d0bb92-8adb-4a77-8298-86873e9b88ce.png)![Sheet 3](https://user-images.githubusercontent.com/113477899/194174959-9892bec1-f0e0-4a4b-b705-c63c41693ca9.png)
 
-From the above graph, most days user walk the recommended number of steps except for Sunday. Another finding is that users didn’t sleep the recommended amount of time (8hours a day)
+From the above graph, most days users walk the recommended number of steps except for Sunday. Another finding is that users didn’t sleep the recommended amount of time (8 hours a day).
 
 #### Total hourly steps by hours
 
@@ -189,13 +187,14 @@ GROUP BY Id,ActivityDate, ActivityHour
 ```
 ![image](https://user-images.githubusercontent.com/113477899/194456518-9451483c-f37c-4b8d-9f4f-5ddf77edb96d.png)
 
-The graph shows that the users are normally active between 8.00 am and 7.00 pm. The most peak period is during lunch time 12.00 pm to 2.00 pm and evening 5.00 pm to 7.00 pm. 
+The graph shows that the users are normally active between 8.00 am and 7.00 pm. The most peak period is during lunch time 12.00 pm to 2.00 pm and evening 5.00 pm to 7.00 pm.  
 
 #### Use of the device
-We would like to find out how often the user uses their device. The usage of device can be categories as follows:
-* High use– Users who use their device between 21 to 31 days
-* Moderate use – Users who use their device between 10 to 20 days
+We would like to find out how often the user uses their device. The usage of the device can be categorised as follows:
+*	High use– Users who use their device between 21 to 31 days
+*	Moderate use – Users who use their device between 10 to 20 days
 *	Low use – Users who use their device between 1 to 9 days
+
 
 To find out the usage percentage (total 24 days)
 ```sql
@@ -222,6 +221,21 @@ GROUP BY Usage
 ![image](https://user-images.githubusercontent.com/113477899/194503294-15e7eafd-eaad-48cb-bd0d-e7fb8b9f9fbe.png)
 
 ## Conclusion
+The result and trend that we have found from the analysis may help improve Bellabeat apps. The ideas:
+
+__1.	Notification of steps__
+
+From the analysis of the user’s average steps per day is about or more than 7,500 steps except for Sunday. An hourly notification updates the user about the steps they currently take to encourage them to move more to achieve their goal. 
+
+__2.	Notification of the total daily sleep time__
+
+Based on our results, the user’s daily average sleep minutes are lesser than the recommended sleep hour (8 hours/day). A notification that reminds the users 30-60mins before the pre-set sleep time would help the users to get ready themselves to go to bed. 
+
+__3.	Interactive function on the apps__
+
+An interactive function will help the users improve their lifestyle, motivate them to be more active and encourage them to sleep at least 8 hours a day. The function can compete the total daily step with another user and the winner will get a reward or appear on the leader board. Furthermore, [The National Sleep Foundation]( https://www.sclhealth.org/blog/2019/09/why-it-is-time-to-ditch-the-phone-before-bed/#:~:text=The%20National%20Sleep%20Foundation%20recommends,and%20start%20reading%20before%20bed.) recommends that people should stop using electronic devices, like phone, at least 30 minutes before bedtime. Notification that reminds users to put down their phones and get prepared to sleep.
+
+With the datasets provided are small (30 users) and do not show the user demographic details. Knowing the user’s age and gender will help to find out more different trends about the user’s behaviour using a smart device.
 
 
 
